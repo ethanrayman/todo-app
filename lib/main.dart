@@ -44,6 +44,7 @@ class _TaskListState extends State<TaskList> {
   TextEditingController nameController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
+  TaskColor tiles = new TaskColor();
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +57,15 @@ class _TaskListState extends State<TaskList> {
           Expanded(
             child: ListView.builder(
               itemCount: tasks.length,
+              //padding: EdgeInsets.symmetric(horizontal: 4.0),
               itemBuilder: (context, index) {
                 Task task = tasks[index];
                 return ListTile(
                   title: Text(task.name),
                   subtitle: Text("${task.date} at ${task.time}"),
-                  tileColor: Color.fromARGB(255, 192, 192, 192),
+                  tileColor: tiles.select(),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -261,4 +265,17 @@ class Task {
   String time;
 
   Task({required this.name, required this.date, required this.time});
+}
+
+class TaskColor {
+  static int count = 0;
+
+  Color select() {
+    count++;
+    if (count % 2 == 1) {
+      return Color.fromARGB(255, 192, 192, 192);
+    } else {
+      return Color.fromARGB(255, 103, 103, 103);
+    }
+  }
 }
